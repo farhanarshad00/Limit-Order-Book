@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/Farhan/Documents/CPP_Practice/OrderBook/build/cmake_install.cmake"
+		"/Users/Farhan/Documents/Limit-Order-Book/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
