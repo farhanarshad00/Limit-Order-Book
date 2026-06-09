@@ -129,12 +129,52 @@ orderbook/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/build
 .PHONY : orderbook/fast
 
+#=============================================================================
+# Target rules for targets named tests
+
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+.PHONY : tests/fast
+
+#=============================================================================
+# Target rules for targets named Catch2
+
+# Build rule for target.
+Catch2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Catch2
+.PHONY : Catch2
+
+# fast build rule for target.
+Catch2/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2.dir/build
+.PHONY : Catch2/fast
+
+#=============================================================================
+# Target rules for targets named Catch2WithMain
+
+# Build rule for target.
+Catch2WithMain: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Catch2WithMain
+.PHONY : Catch2WithMain
+
+# fast build rule for target.
+Catch2WithMain/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build
+.PHONY : Catch2WithMain/fast
+
 src/Order.o: src/Order.cpp.o
 .PHONY : src/Order.o
 
 # target to build an object file
 src/Order.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Order.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Order.cpp.o
 .PHONY : src/Order.cpp.o
 
 src/Order.i: src/Order.cpp.i
@@ -143,6 +183,7 @@ src/Order.i: src/Order.cpp.i
 # target to preprocess a source file
 src/Order.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Order.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Order.cpp.i
 .PHONY : src/Order.cpp.i
 
 src/Order.s: src/Order.cpp.s
@@ -151,6 +192,7 @@ src/Order.s: src/Order.cpp.s
 # target to generate assembly for a file
 src/Order.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Order.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Order.cpp.s
 .PHONY : src/Order.cpp.s
 
 src/OrderBook.o: src/OrderBook.cpp.o
@@ -159,6 +201,7 @@ src/OrderBook.o: src/OrderBook.cpp.o
 # target to build an object file
 src/OrderBook.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/OrderBook.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/OrderBook.cpp.o
 .PHONY : src/OrderBook.cpp.o
 
 src/OrderBook.i: src/OrderBook.cpp.i
@@ -167,6 +210,7 @@ src/OrderBook.i: src/OrderBook.cpp.i
 # target to preprocess a source file
 src/OrderBook.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/OrderBook.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/OrderBook.cpp.i
 .PHONY : src/OrderBook.cpp.i
 
 src/OrderBook.s: src/OrderBook.cpp.s
@@ -175,6 +219,7 @@ src/OrderBook.s: src/OrderBook.cpp.s
 # target to generate assembly for a file
 src/OrderBook.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/OrderBook.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/OrderBook.cpp.s
 .PHONY : src/OrderBook.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -201,6 +246,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+tests/test_orderbook.o: tests/test_orderbook.cpp.o
+.PHONY : tests/test_orderbook.o
+
+# target to build an object file
+tests/test_orderbook.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test_orderbook.cpp.o
+.PHONY : tests/test_orderbook.cpp.o
+
+tests/test_orderbook.i: tests/test_orderbook.cpp.i
+.PHONY : tests/test_orderbook.i
+
+# target to preprocess a source file
+tests/test_orderbook.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test_orderbook.cpp.i
+.PHONY : tests/test_orderbook.cpp.i
+
+tests/test_orderbook.s: tests/test_orderbook.cpp.s
+.PHONY : tests/test_orderbook.s
+
+# target to generate assembly for a file
+tests/test_orderbook.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/test_orderbook.cpp.s
+.PHONY : tests/test_orderbook.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -209,7 +278,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... Catch2"
+	@echo "... Catch2WithMain"
 	@echo "... orderbook"
+	@echo "... tests"
 	@echo "... src/Order.o"
 	@echo "... src/Order.i"
 	@echo "... src/Order.s"
@@ -219,6 +291,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... tests/test_orderbook.o"
+	@echo "... tests/test_orderbook.i"
+	@echo "... tests/test_orderbook.s"
 .PHONY : help
 
 

@@ -1,3 +1,10 @@
 /Users/Farhan/Documents/Limit-Order-Book/build/CMakeFiles/orderbook.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/CMakeFiles/tests.dir
 /Users/Farhan/Documents/Limit-Order-Book/build/CMakeFiles/edit_cache.dir
 /Users/Farhan/Documents/Limit-Order-Book/build/CMakeFiles/rebuild_cache.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/CMakeFiles/edit_cache.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/CMakeFiles/rebuild_cache.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/src/CMakeFiles/Catch2.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/src/CMakeFiles/edit_cache.dir
+/Users/Farhan/Documents/Limit-Order-Book/build/_deps/catch2-build/src/CMakeFiles/rebuild_cache.dir

@@ -23,12 +23,15 @@ class OrderBook {
         void logTrade(std::ofstream& tradeLog, int buyId, int sellId, double price, int quantity);
 
     public:
+        const std::map<double, std::list<Order>, std::greater<double>>& getBidBook() const { return bid_book; }
+        const std::map<double, std::list<Order>>& getAskBook() const { return ask_book; }
         void addLimitOrder(const Order& order);
         void addMarketOrder(const Order& order, std::ofstream& tradeLog);
         void print() const;
         void matchOrders(std::ofstream& tradeLog);
         void cancelOrder(int id);
         void modifyOrder(int id,double price, int quantity);
+        
     };
 
 #endif
