@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Order.h"
 #include "OrderBook.h"
+#include "Replay.h"
 
 int main() {
     OrderBook book;
@@ -27,4 +28,12 @@ int main() {
     book.addMarketOrder(Order(8, 0, 2, Side::BUY), tradeLog);
     std::cout << "=== After Market Order ===" << std::endl;
     book.print();
+
+    // Testing Replay Harness
+    std::cout << "\n=== Replay ===" << std::endl;
+    OrderBook replayBook;
+    std::ofstream replayLog("replay_trades.csv");
+    replayLog << "timestamp,buy_id,sell_id,price,quantity\n";
+    Replay::run(replayBook, "../data/sample_orders.csv", replayLog);
+    replayBook.print();
 }

@@ -1,0 +1,9 @@
+id,type,side,price,quantity
+1,limit,BUY,90.00,10
+2,limit,SELL,95.00,8
+3,limit,BUY,85.00,5
+4,limit,SELL,90.00,6
+5,cancel,BUY,0,0
+6,limit,BUY,95.00,4
+7,market,BUY,0,3
+8,modify,BUY,88.00,7

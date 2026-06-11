@@ -222,6 +222,33 @@ src/OrderBook.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/OrderBook.cpp.s
 .PHONY : src/OrderBook.cpp.s
 
+src/Replay.o: src/Replay.cpp.o
+.PHONY : src/Replay.o
+
+# target to build an object file
+src/Replay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Replay.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Replay.cpp.o
+.PHONY : src/Replay.cpp.o
+
+src/Replay.i: src/Replay.cpp.i
+.PHONY : src/Replay.i
+
+# target to preprocess a source file
+src/Replay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Replay.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Replay.cpp.i
+.PHONY : src/Replay.cpp.i
+
+src/Replay.s: src/Replay.cpp.s
+.PHONY : src/Replay.s
+
+# target to generate assembly for a file
+src/Replay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Replay.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Replay.cpp.s
+.PHONY : src/Replay.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -288,6 +315,9 @@ help:
 	@echo "... src/OrderBook.o"
 	@echo "... src/OrderBook.i"
 	@echo "... src/OrderBook.s"
+	@echo "... src/Replay.o"
+	@echo "... src/Replay.i"
+	@echo "... src/Replay.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

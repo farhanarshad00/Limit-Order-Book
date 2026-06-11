@@ -10,6 +10,7 @@ add_executable(orderbook
     src/main.cpp
     src/Order.cpp
     src/OrderBook.cpp
+    src/Replay.cpp
 )
 
 # Download Catch2 automatically
@@ -26,6 +27,7 @@ add_executable(tests
     tests/test_orderbook.cpp
     src/Order.cpp
     src/OrderBook.cpp
+    src/Replay.cpp
 )
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_include_directories(tests PRIVATE include)
