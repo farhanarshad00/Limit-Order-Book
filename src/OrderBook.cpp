@@ -71,7 +71,7 @@ void OrderBook::matchOrders(std::ofstream& tradeLog){
         bestBid.setQuantity(bestBid.getQuantity() - tradedQty);
         bestAsk.setQuantity(bestAsk.getQuantity() - tradedQty);
         
-        std::cout << "FILL: " << tradedQty << " shares at $" << ask_book.begin()->first << std::endl;
+        //std::cout << "FILL: " << tradedQty << " shares at $" << ask_book.begin()->first << std::endl;
         
         logTrade(tradeLog, bestBid.getId(), bestAsk.getId(), ask_book.begin()->first, tradedQty);
         if(bestBid.getQuantity() == 0){

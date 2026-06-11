@@ -3,6 +3,7 @@
 #include "Order.h"
 #include "OrderBook.h"
 #include "Replay.h"
+#include "Benchmark.h"
 
 int main() {
     OrderBook book;
@@ -36,4 +37,8 @@ int main() {
     replayLog << "timestamp,buy_id,sell_id,price,quantity\n";
     Replay::run(replayBook, "../data/sample_orders.csv", replayLog);
     replayBook.print();
+
+    // Testing Benchmark with 100,000 simulated orders
+    std::cout << "\n=== Benchmark ===" << std::endl;
+    Benchmark::run(100000);
 }

@@ -168,6 +168,33 @@ Catch2WithMain/fast:
 	$(MAKE) $(MAKESILENT) -f _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build.make _deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/build
 .PHONY : Catch2WithMain/fast
 
+src/Benchmark.o: src/Benchmark.cpp.o
+.PHONY : src/Benchmark.o
+
+# target to build an object file
+src/Benchmark.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Benchmark.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Benchmark.cpp.o
+.PHONY : src/Benchmark.cpp.o
+
+src/Benchmark.i: src/Benchmark.cpp.i
+.PHONY : src/Benchmark.i
+
+# target to preprocess a source file
+src/Benchmark.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Benchmark.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Benchmark.cpp.i
+.PHONY : src/Benchmark.cpp.i
+
+src/Benchmark.s: src/Benchmark.cpp.s
+.PHONY : src/Benchmark.s
+
+# target to generate assembly for a file
+src/Benchmark.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/orderbook.dir/build.make CMakeFiles/orderbook.dir/src/Benchmark.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/Benchmark.cpp.s
+.PHONY : src/Benchmark.cpp.s
+
 src/Order.o: src/Order.cpp.o
 .PHONY : src/Order.o
 
@@ -309,6 +336,9 @@ help:
 	@echo "... Catch2WithMain"
 	@echo "... orderbook"
 	@echo "... tests"
+	@echo "... src/Benchmark.o"
+	@echo "... src/Benchmark.i"
+	@echo "... src/Benchmark.s"
 	@echo "... src/Order.o"
 	@echo "... src/Order.i"
 	@echo "... src/Order.s"
