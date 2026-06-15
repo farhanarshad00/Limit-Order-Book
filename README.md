@@ -44,9 +44,15 @@ Catch2 is fetched automatically by CMake on first build — no manual installati
 | Metric | Result |
 |--------|--------|
 | Orders processed | 100,000 |
-| Total time | 0.175 seconds |
-| Throughput | ~569,353 orders/sec |
+| Total time | 0.079 seconds |
+| Throughput | ~1,266,000 orders/sec |
+| Compiler flags | -O2 -Wall -Wextra |
+| Hardware | Apple M1, 8GB RAM, macOS 26.3 |
 
+Unoptimized build (-O0) produced ~557,000 orders/sec — 
+the 2.27x improvement reflects compiler optimizations 
+only, with no code changes.
+ 
 ## Architecture
 The three core data structures and how they interact:
 
