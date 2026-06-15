@@ -13,6 +13,7 @@ add_executable(orderbook
     src/Replay.cpp
     src/Benchmark.cpp
 )
+target_compile_options(orderbook PRIVATE -Wall -Wextra -O2)
 
 # Download Catch2 automatically
 include(FetchContent)
