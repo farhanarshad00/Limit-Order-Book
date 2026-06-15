@@ -44,14 +44,145 @@ Catch2 is fetched automatically by CMake on first build — no manual installati
 | Metric | Result |
 |--------|--------|
 | Orders processed | 100,000 |
-| Total time | 0.079 seconds |
-| Throughput | ~1,266,000 orders/sec |
+| Total time | 0.070 seconds |
+| Throughput | ~1,428,551 orders/sec |
 | Compiler flags | -O2 -Wall -Wextra |
 | Hardware | Apple M1, 8GB RAM, macOS 26.3 |
 
 Unoptimized build (-O0) produced ~557,000 orders/sec — 
 the 2.27x improvement reflects compiler optimizations 
 only, with no code changes.
+
+## Sample run
+
+```
+=== Initial Book ===
+--- ASK BOOK ---
+Price: 80
+ID: 6
+Quantity: 3
+Side: SELL
+
+Price: 85
+ID: 5
+Quantity: 4
+Side: SELL
+
+Price: 90
+ID: 4
+Quantity: 5
+Side: SELL
+
+Price: 230
+ID: 7
+Quantity: 13
+Side: SELL
+
+--- BID BOOK ---
+Price: 50.25
+ID: 1
+Quantity: 6
+Side: BUY
+
+Price: 25
+ID: 3
+Quantity: 4
+Side: BUY
+
+Price: 10
+ID: 2
+Quantity: 9
+Side: BUY
+
+=== After Cancelling Order 7 ===
+--- ASK BOOK ---
+Price: 80
+ID: 6
+Quantity: 3
+Side: SELL
+
+Price: 85
+ID: 5
+Quantity: 4
+Side: SELL
+
+Price: 90
+ID: 4
+Quantity: 5
+Side: SELL
+
+--- BID BOOK ---
+Price: 50.25
+ID: 1
+Quantity: 6
+Side: BUY
+
+Price: 25
+ID: 3
+Quantity: 4
+Side: BUY
+
+Price: 10
+ID: 2
+Quantity: 9
+Side: BUY
+
+=== After Market Order ===
+--- ASK BOOK ---
+Price: 80
+ID: 6
+Quantity: 1
+Side: SELL
+
+Price: 85
+ID: 5
+Quantity: 4
+Side: SELL
+
+Price: 90
+ID: 4
+Quantity: 5
+Side: SELL
+
+--- BID BOOK ---
+Price: 50.25
+ID: 1
+Quantity: 6
+Side: BUY
+
+Price: 25
+ID: 3
+Quantity: 4
+Side: BUY
+
+Price: 10
+ID: 2
+Quantity: 9
+Side: BUY
+
+=== Replay ===
+--- ASK BOOK ---
+Price: 95
+ID: 2
+Quantity: 1
+Side: SELL
+
+--- BID BOOK ---
+Price: 90
+ID: 1
+Quantity: 4
+Side: BUY
+
+Price: 85
+ID: 3
+Quantity: 5
+Side: BUY
+
+=== Benchmark ===
+70001 microseconds
+Total Time in Seconds: 0.070001
+Throughput: 1428551 orders/sec
+```
  
 ## Architecture
 The three core data structures and how they interact:
