@@ -76,6 +76,40 @@ TEST_CASE("Invalid quantity in order construction throws exception") {
     REQUIRE_THROWS_AS(Order(1, 100.0, -1, Side::BUY), std::invalid_argument);
 }
 
+TEST_CASE("Market BUY filling against a resting ASK") {
+    OrderBook book;
+    std::ofstream testlog;
+    book.addLimitOrder(Order(1, 100.0, 5, Side::SELL));
+    book.addMarketOrder(Order(2,0,5,Side::BUY),testlog);
+    REQUIRE(book.getBidBook().empty());
+    REQUIRE(book.getAskBook().empty());
+}
+
+TEST_CASE("Market SELL filling against a resting BID") {
+    OrderBook book;
+    std::ofstream testlog;
+    book.addLimitOrder(Order(1, 100.0, 5, Side::BUY));
+    book.addMarketOrder(Order(2,0,5,Side::SELL),testlog);
+    REQUIRE(book.getBidBook().empty());
+    REQUIRE(book.getAskBook().empty());
+}
+
+TEST_CASE("Market BUY partially filling against a resting ASK leaving remaining quantity unfilled") {
+    OrderBook book;
+    std::ofstream testlog;
+    book.addLimitOrder(Order(1, 100.0, 5, Side::SELL));
+    book.addMarketOrder(Order(2,0,2,Side::BUY),testlog);
+    REQUIRE(book.getBidBook().empty());
+    REQUIRE(book.getAskBook().at(100.0).front().getQuantity() == 3);
+}
+
+TEST_CASE("Modified order inserts into bid book and resets queue position") {
+    OrderBook book;
+    book.addLimitOrder(Order(1, 100.0, 6, Side::BUY));
+    book.addLimitOrder(Order(2, 100.0, 5, Side::BUY));
+    book.modifyOrder(1,100.0,10);
+    REQUIRE(book.getBidBook().at(100.0).front().getId() == 2);
+}
 
 
 

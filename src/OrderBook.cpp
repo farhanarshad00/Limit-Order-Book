@@ -63,39 +63,35 @@ void OrderBook::print() const{
 void OrderBook::matchOrders(std::ofstream& tradeLog){ 
 
     while (!bid_book.empty() && !ask_book.empty()){
-
-    if (bid_book.begin()->first >= ask_book.begin()->first){
-        Order& bestBid = bid_book.begin()->second.front();
-        Order& bestAsk = ask_book.begin()->second.front();
-        int tradedQty = std::min(bestBid.getQuantity(), bestAsk.getQuantity());
-        bestBid.setQuantity(bestBid.getQuantity() - tradedQty);
-        bestAsk.setQuantity(bestAsk.getQuantity() - tradedQty);
-        
-        //std::cout << "FILL: " << tradedQty << " shares at $" << ask_book.begin()->first << std::endl;
-        
-        logTrade(tradeLog, bestBid.getId(), bestAsk.getId(), ask_book.begin()->first, tradedQty);
-        if(bestBid.getQuantity() == 0){
-            int bidId = bestBid.getId();
+        if (bid_book.begin()->first >= ask_book.begin()->first){
+            Order& bestBid = bid_book.begin()->second.front();
+            Order& bestAsk = ask_book.begin()->second.front();
+            int tradedQty = std::min(bestBid.getQuantity(), bestAsk.getQuantity());
+            bestBid.setQuantity(bestBid.getQuantity() - tradedQty);
+            bestAsk.setQuantity(bestAsk.getQuantity() - tradedQty);
             
-            bid_book.begin()->second.erase(bid_book.begin()->second.begin());
-            if (bid_book.begin()->second.empty()) {
-                bid_book.erase(bid_book.begin());
-                }
+            //std::cout << "FILL: " << tradedQty << " shares at $" << ask_book.begin()->first << std::endl;
+            
+            logTrade(tradeLog, bestBid.getId(), bestAsk.getId(), ask_book.begin()->first, tradedQty);
+            if(bestBid.getQuantity() == 0){
+                int bidId = bestBid.getId();
+                
+                bid_book.begin()->second.erase(bid_book.begin()->second.begin());
+                if (bid_book.begin()->second.empty()) {
+                    bid_book.erase(bid_book.begin());
+                    }
                 order_lookup.erase(bidId);
-            }
-        if(bestAsk.getQuantity() == 0){
-            int askId = bestAsk.getId();
-            ask_book.begin()->second.erase(ask_book.begin()->second.begin());
-            if (ask_book.begin()->second.empty()) {
-                ask_book.erase(ask_book.begin());
                 }
+            if(bestAsk.getQuantity() == 0){
+                int askId = bestAsk.getId();
+                ask_book.begin()->second.erase(ask_book.begin()->second.begin());
+                if (ask_book.begin()->second.empty()) {
+                    ask_book.erase(ask_book.begin());
+                    }
                 order_lookup.erase(askId);
-            }
-
-
-        }
-            else{
-                break;
+                }
+        }else{
+            break;
         }
     }
 }
