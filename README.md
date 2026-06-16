@@ -9,7 +9,7 @@ A C++17 limit order book matching engine implementing price-time priority for li
 - [x] Cancel — O(1) via iterator index
 - [x] Modify — cancel and reinsert
 - [x] CSV trade logging
-- [x] Catch2 unit tests (10 tests)
+- [x] Catch2 unit tests (14 tests)
 - [x] CSV replay harness
 - [x] Throughput benchmark
 
@@ -198,7 +198,12 @@ Incoming Order
       |
       |-----> order_lookup (std::unordered_map)
                 order_id -> OrderLocation {price, side, iterator}
+
 ```
+**Note:** For cancel rows in the replay CSV, only the `id` 
+column is used — the side, price, and quantity fields 
+are ignored and can be set to 0.
+
 ### Bid Book
 std::map in order for pairs to be sorted by highest price level, resulting in O(log n) time complexity rather than O(n) complexity when locating highest bids. Pairs are stored as (key,value) -> (price, std::list<Order>)
 
