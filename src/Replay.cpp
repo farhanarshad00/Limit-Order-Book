@@ -38,6 +38,7 @@ void Replay::run(OrderBook& book,std::string filename,std::ofstream& tradelog){
             book.cancelOrder(id);
         } else if (type_str == "modify"){
             book.modifyOrder(id,price,qty);
+            book.matchOrders(tradelog);  // a new price can cross the spread
         }
     }
 

@@ -8,6 +8,7 @@
 
 void Benchmark::run(int n){
     OrderBook book;
+    book.reserve(n);  
     std::ofstream devNull("/dev/null");
     std::vector<long long> latencies;
     latencies.reserve(n);
@@ -35,7 +36,9 @@ void Benchmark::run(int n){
     std::cout <<"Total Time in Seconds: " << seconds << std::endl;
     std::cout << "Throughput: " << static_cast<int>(throughput) << " orders/sec\n";
 
-    std::vector<long long> warm(latencies.begin() + 1000, latencies.end());
+    // Skip the first 1,000 orders as warm-up (only when the run is long enough).
+    std::size_t warmup = latencies.size() > 2000 ? 1000 : 0;
+    std::vector<long long> warm(latencies.begin() + warmup, latencies.end());
 
     std::vector<long long> forP99 = warm;
     size_t n99 = forP99.size() * 99 / 100;
