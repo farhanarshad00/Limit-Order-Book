@@ -12,6 +12,7 @@ A C++17 limit order book matching engine implementing price-time priority for li
 - [x] Catch2 unit tests (14 tests)
 - [x] CSV replay harness
 - [x] Throughput benchmark
+- [x] Per-order p50/p99 latency benchmark
 
 ## Build
 
@@ -44,14 +45,25 @@ Catch2 is fetched automatically by CMake on first build — no manual installati
 | Metric | Result |
 |--------|--------|
 | Orders processed | 100,000 |
-| Total time | 0.070 seconds |
-| Throughput | ~1,428,551 orders/sec |
+| Total time | 0.083 seconds |
+| Throughput | ~1,206,490 orders/sec |
+| p50 per-order latency | 125 ns |
+| p99 per-order latency | ~3.5 μs |
 | Compiler flags | -O2 -Wall -Wextra |
 | Hardware | Apple M1, 8GB RAM, macOS 26.3 |
 
 Unoptimized build (-O0) produced ~557,000 orders/sec — 
-the 2.27x improvement reflects compiler optimizations 
+the throughput improvement reflects compiler optimizations 
 only, with no code changes.
+
+Throughput here is lower than in earlier runs (~1.4M orders/sec) because this benchmark 
+now takes a `steady_clock` timestamp before and after every order to compute per-order 
+latency — that per-iteration timer call adds measurable overhead on its own. All figures 
+above (throughput, p50, p99) come from the same instrumented run for consistency, rather 
+than mixing timed and untimed results.
+
+The p99/p50 gap (~28x) reflects the tail cases where a match walks through multiple 
+resting orders at a price level, rather than a single fast insert.
 
 ## Sample run
 
@@ -179,9 +191,11 @@ Quantity: 5
 Side: BUY
 
 === Benchmark ===
-70001 microseconds
-Total Time in Seconds: 0.070001
-Throughput: 1428551 orders/sec
+82885 microseconds
+Total Time in Seconds: 0.082885
+Throughput: 1206490 orders/sec
+p50 latency: 125 ns
+p99 latency: 3500 ns
 ```
  
 ## Architecture
