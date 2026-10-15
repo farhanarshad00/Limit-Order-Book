@@ -7,9 +7,9 @@ A C++17 limit order book matching engine implementing price-time priority for li
 - [x] Limit orders with price-time priority
 - [x] Market orders
 - [x] Cancel — O(1) via iterator index
-- [x] Modify — cancel and reinsert
+- [x] Modify — quantity decreases keep queue priority; price changes and increases re-queue
 - [x] CSV trade logging
-- [x] Catch2 unit tests (14 tests)
+- [x] Catch2 unit tests (24 tests)
 - [x] CSV replay harness
 - [x] Throughput benchmark
 - [x] Per-order p50/p99 latency benchmark
@@ -45,10 +45,10 @@ Catch2 is fetched automatically by CMake on first build — no manual installati
 | Metric | Result |
 |--------|--------|
 | Orders processed | 100,000 |
-| Total time | 0.083 seconds |
-| Throughput | ~1,206,490 orders/sec |
+| Total time | 0.081 seconds |
+| Throughput | ~1,238,267 orders/sec |
 | p50 per-order latency | 125 ns |
-| p99 per-order latency | ~3.5 μs |
+| p99 per-order latency | ~3.4 μs |
 | Compiler flags | -O2 -Wall -Wextra |
 | Hardware | Apple M1, 8GB RAM, macOS 26.3 |
 
@@ -62,8 +62,11 @@ latency — that per-iteration timer call adds measurable overhead on its own. A
 above (throughput, p50, p99) come from the same instrumented run for consistency, rather 
 than mixing timed and untimed results.
 
-The p99/p50 gap (~28x) reflects the tail cases where a match walks through multiple 
-resting orders at a price level, rather than a single fast insert.
+The p99/p50 gap (~27x) reflects the tail cases where a match walks through multiple 
+resting orders at a price level, rather than a single fast insert. Pre-sizing the 
+order index with reserve() left p99 unchanged, ruling out hash-table rehashing as 
+the cause. Note that p50 is only 2–3 ticks of the M1's ~41.7 ns timer, so it is 
+accurate to about ±40 ns.
 
 ## Sample run
 
@@ -191,11 +194,11 @@ Quantity: 5
 Side: BUY
 
 === Benchmark ===
-82885 microseconds
-Total Time in Seconds: 0.082885
-Throughput: 1206490 orders/sec
+80758 microseconds
+Total Time in Seconds: 0.080758
+Throughput: 1238267 orders/sec
 p50 latency: 125 ns
-p99 latency: 3500 ns
+p99 latency: 3375 ns
 ```
  
 ## Architecture
@@ -211,7 +214,7 @@ Incoming Order
       |         price -> std::list<Order>
       |
       |-----> order_lookup (std::unordered_map)
-                order_id -> OrderLocation {price, side, iterator}
+                order_id -> OrderLocation {side, list iterator, level iterator}
 
 ```
 **Note:** For cancel rows in the replay CSV, only the `id` 
@@ -219,16 +222,18 @@ column is used — the side, price, and quantity fields
 are ignored and can be set to 0.
 
 ### Bid Book
-std::map in order for pairs to be sorted by highest price level, resulting in O(log n) time complexity rather than O(n) complexity when locating highest bids. Pairs are stored as (key,value) -> (price, std::list<Order>)
+std::map sorted by highest price first, so the best bid is always begin() in O(1); adding a new price level costs O(log n). Pairs are stored as (key,value) -> (price, std::list<Order>)
 
 ### Ask Book
-std::map in order for pairs to be sorted by lowest price level, resulting in O(log n) time complexity rather than O(n) complexity when locating lowest asks. Pairs are stored as (key,value) -> (price, std::list<Order>)
+std::map sorted by lowest price first, so the best ask is always begin() in O(1); adding a new price level costs O(log n). Pairs are stored as (key,value) -> (price, std::list<Order>)
 
 ### Order Lookup Index
-std::unordered_map due to O(1) time complexity when inserting or deleting elements. Pairs are stored as (key,value) -> (order_id, OrderLocation). OrderLocation stores the price level, side, and a direct list iterator to the order, enabling O(1) cancel without scanning the book.
+std::unordered_map due to O(1) average time complexity when inserting or deleting elements. Pairs are stored as (key,value) -> (order_id, OrderLocation). OrderLocation stores the order's side, a list iterator to the order, and an iterator to its price level. Cancels unlink the order and, if its level empties, erase the level by iterator, so cancel never searches the book (average-case O(1)).
 
 ## Design Decisions
-- **Cancel and reinsert for modified orders**: To protect against traders attempting to game the book, queue position is reset when traders make a new commitment.   
+- **Modify semantics**: A quantity decrease at the same price keeps queue priority, since it can't disadvantage orders behind it. A price change or size increase is a new commitment, so the order is cancelled and re-queued at the back, preventing traders from gaming their queue position.
+- **Trades at the resting price**: Each trade executes at the price of the order already in the book, so an incoming buy lifts the ask and an incoming sell hits the bid.
+- **Duplicate IDs rejected**: Adding an order with an existing ID throws, keeping the lookup index consistent with the book.   
 - **Market orders extreme price**: Ensuring market orders are matched instantly to the highest bid/lowest ask depending on side, each market order's price was set at 0.0/std::numeric_limits<double>::max() to match orders using existing limit order infrastructure.
 - **First in first out ordering**: Following the practice set by real order books that use FIFO ordering to ensure fairness and protect traders who committed earlier therefore incentivizing liquidity provision.
 
